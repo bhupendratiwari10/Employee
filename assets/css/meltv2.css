@@ -1,0 +1,360 @@
+/* Color Variables */
+:root {
+  --primary: #0c74ff;
+  --secondary: #c2c2c2;
+  --success: #06dd22;
+  --info: #0ab9e5;
+  --danger: #e40000;
+  --warning: #fcca00;
+  --dark: #353535;
+  --lite-black: #151515;
+  --blue: #005aff;
+  --red: #f70000;
+  --cyan: #00ffcb;
+  --teal: #15a789;
+  --pink: #ff2c88;
+  --white: #ffffff;
+  --black: #111111;
+  --green: #239f38;
+  --yellow: #ffcd00;
+  --indigo: #5e0ce2;
+  --orange: #ff8100;
+  --golden: #ffa700;
+  --silver: #e4e4e4;
+}
+
+/* Screen Sizes */
+:root {
+  --sm-sc: 576px;
+  --md-sc: 768px;
+  --lg-sc: 992px;
+  --xl-sc: 1200px;
+  --xxl-sc: 1400px;
+}
+
+/* Reset Styles */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: transparent;
+  font-family: system-ui, -apple-system, Poppins, Ubuntu, Roboto, Arial;
+}
+
+/* Text Color Classes */
+.t-red { color: var(--red); }
+.t-blue { color: var(--blue); }
+.t-green { color: var(--green); }
+.t-yellow { color: var(--yellow); }
+.t-white { color: var(--white); }
+.t-black { color: var(--black); }
+.t-indigo { color: var(--indigo); }
+.t-gray, .t-grey { color: grey; }
+.t-pink { color: var(--pink); }
+
+/* Links */
+a {
+  text-decoration: none;
+  color: var(--blue);
+}
+
+/* Utility Classes */
+.plain, *[design=plain] {
+  border: 0;
+  outline: 0;
+  background: none;
+}
+
+select, select:focus, .dropdiv qq, .dropdiv:focus qq {
+  appearance: none;
+  padding-right: 36px !important;
+  background-repeat: no-repeat;
+  background-size: 16px 12px;
+}
+
+select {
+  background-image: url(https://cdn3.iconfinder.com/data/icons/user-interface-169/32/chevron-bottom-512.png);
+}
+
+select:focus {
+  background-image: url(https://cdn3.iconfinder.com/data/icons/user-interface-169/32/chevron-top-512.png);
+}
+
+.dropdiv, .dropdiv:focus {
+  outline: none !important;
+}
+
+.dropdiv qq, .dropdiv:focus qq {
+  text-align: left;
+  background-position: right 0.75em top 1em;
+  padding: 11px 21px;
+  width: -webkit-fill-available;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.dropdiv hiddendata, .dropdiv:focus hiddendata {
+  text-align: left;
+  display: none;
+  background: lavender;
+  padding: 11px 21px;
+}
+
+input[design='bootstrap'], textarea[design='bootstrap'], select[design='bootstrap'], button[design='bootstrap'] {
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 11px 21px;
+}
+
+input[design='bootstrap']:focus, textarea[design='bootstrap']:focus, select[design='bootstrap']:focus, button[design='bootstrap']:focus {
+  border: 1px solid #00bcd4;
+}
+
+/* Responsive Classes */
+@media (max-width: var(--sm-sc)) {
+  .sm-hidden { display: none; }
+  .sm-block { display: block; }
+  .sm-inline { display: inline; }
+  .sm-inline-block { display: inline-block; }
+}
+
+@media (min-width: var(--md-sc)) {
+  .md-hidden { display: none; }
+  .md-block { display: block; }
+  .md-inline { display: inline; }
+  .md-inline-block { display: inline-block; }
+}
+
+@media (min-width: var(--lg-sc)) {
+  .lg-hidden { display: none; }
+  .lg-block { display: block; }
+  .lg-inline { display: inline; }
+  .lg-inline-block { display: inline-block; }
+}
+
+@media (min-width: var(--xl-sc)) {
+  .xl-hidden { display: none; }
+  .xl-block { display: block; }
+  .xl-inline { display: inline; }
+  .xl-inline-block { display: inline-block; }
+}
+
+@media (min-width: var(--xxl-sc)) {
+  .xxl-hidden { display: none; }
+  .xxl-block { display: block; }
+  .xxl-inline { display: inline; }
+  .xxl-inline-block { display: inline-block; }
+}
+
+/* Flexbox Classes */
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Grid Classes */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1rem;
+}
+
+.grid-col {
+  grid-column: span 12;
+}
+
+.grid-sm {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-md {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-lg {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-xl {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-gap {
+  gap: 1rem;
+}
+
+/* Padding and Margin Classes */
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 2rem; }
+
+.m-1 { margin: 0.25rem; }
+.m-2 { margin: 0.5rem; }
+.m-3 { margin: 1rem; }
+.m-4 { margin: 1.5rem; }
+.m-5 { margin: 2rem; }
+
+/* Focus Styles */
+.focus {
+  outline: 2px solid var(--primary);
+}
+
+/* Form Styles */
+.input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 5px rgba(12, 116, 255, 0.5);
+}
+
+/* Button Styles */
+.button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.button-primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.button-primary:hover {
+  background-color: #0050cc;
+}
+
+.button-secondary {
+  background-color: var(--secondary);
+  color: var(--dark);
+}
+
+.button-secondary:hover {
+  background-color: #b2b2b2;
+}
+
+.button-success {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.button-success:hover {
+  background-color: #00b309;
+}
+
+.button-danger {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+.button-danger:hover {
+  background-color: #c20000;
+}
+
+.button-info {
+  background-color: var(--info);
+  color: var(--white);
+}
+
+.button-info:hover {
+  background-color: #008bbd;
+}
+
+.button-warning {
+  background-color: var(--warning);
+  color: var(--dark);
+}
+
+.button-warning:hover {
+  background-color: #f0c200;
+}
+
+/* Responsive Typography */
+@media (max-width: var(--sm-sc)) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: var(--md-sc)) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: var(--lg-sc)) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: var(--xl-sc)) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: var(--xxl-sc)) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 3.5rem;
+  }
+}
+
+/* Additional Classes */
+.margin-auto {
+  margin: auto;
+}
+
+.padding-auto {
+  padding: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}

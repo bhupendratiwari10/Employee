@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg viewBox="0 0 909 1286" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<clipPath id="c0_4"><path d="M0 1299.2V9.2H914.4v1290Z"/></clipPath>
+<style type="text/css"><![CDATA[
+.g0_4{
+fill: #FFC43B;
+}
+.g1_4{
+fill: #000;
+}
+.g2_4{
+fill: #FFF;
+}
+.g3_4{
+fill: none;
+stroke: #000;
+stroke-width: 1.527;
+stroke-dasharray: 14,14;
+}
+.g4_4{
+fill: none;
+stroke: #000;
+stroke-width: 1.527;
+}
+]]></style>
+</defs>
+<image clip-path="url(#c0_4)" preserveAspectRatio="none" x="0" y="9" width="914" height="1292" xlink:href="img/1.png"/>
+<image preserveAspectRatio="none" x="295" y="1237" width="321" height="49" xlink:href="img/2.png"/>
+<image preserveAspectRatio="none" x="0" y="1230" width="923" height="56" xlink:href="img/3.png"/>
+<image preserveAspectRatio="none" x="894" y="1230" width="938" height="56" xlink:href="img/4.png"/>
+<image preserveAspectRatio="none" x="0" y="-24" width="917" height="77" xlink:href="img/5.png"/>
+<path d="M0 39.3H909.4V-21.9H0V39.3Z" class="g0_4"/>
+<image preserveAspectRatio="none" x="900" y="-24" width="926" height="77" xlink:href="img/6.png"/>
+<path d="M909.4 39.3h909.5V-21.9H909.4V39.3Z" class="g0_4"/>
+<path d="M-1 28.7H910.5V-32.6H-1V28.7Z" class="g1_4"/>
+<path d="M908.4 28.7H1820V-32.6H908.4V28.7Z" class="g1_4"/>
+<path d="M92.5 676.8h3.1V649.5H92.5v27.3Z" class="g0_4"/>
+<path d="M92.5 133h3.1V105.6H92.5V133Z" class="g0_4"/>
+<path d="M102.9 706.7c-3.6 0 -6.5 2.9 -6.5 6.5V1171c0 3.6 2.9 6.5 6.5 6.5H809.7c3.6 0 6.5 -2.9 6.5 -6.5V713.2c0 -3.6 -2.9 -6.5 -6.5 -6.5Z" class="g2_4"/>
+<path d="M96.4 733.4v424.1m26.9 20H796.1m20.1 -26.7V726.6M789.3 706.7H116.5" class="g3_4"/>
+<path d="M96.4 1164.3v6.7c0 3.6 2.9 6.5 6.5 6.5h6.8m693.2 0h6.8c3.6 0 6.5 -2.9 6.5 -6.5v-6.7m0 -444.4v-6.7c0 -3.6 -2.9 -6.5 -6.5 -6.5h-6.8m-693.2 0h-6.8c-3.6 0 -6.5 2.9 -6.5 6.5v6.7" class="g4_4"/>
+<path d="M101.3 158.6c-3.6 0 -6.5 3 -6.5 6.5V596.9c0 3.6 2.9 6.5 6.5 6.5H809.7c3.6 0 6.5 -2.9 6.5 -6.5V165.1c0 -3.5 -2.9 -6.5 -6.5 -6.5Z" class="g2_4"/>
+<path d="M94.8 185.4v398m26.9 20H796.1m20.1 -26.8v-398m-26.9 -20H114.9" class="g3_4"/>
+<path d="M94.8 590.1v6.8c0 3.6 2.9 6.5 6.5 6.5h6.8m694.8 0h6.8c3.6 0 6.5 -2.9 6.5 -6.5v-6.8m0 -418.2v-6.8c0 -3.5 -2.9 -6.5 -6.5 -6.5h-6.8m-694.8 0h-6.8c-3.6 0 -6.5 3 -6.5 6.5v6.8" class="g4_4"/>
+</svg>

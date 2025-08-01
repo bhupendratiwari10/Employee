@@ -1,0 +1,20 @@
+            <div class='row col-12' style='color:#000!important;'>
+                <table id="userTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>ULB(Title)</th>
+                            <th>District</th>
+                            <th>State</th>                            
+                            <th>Monthly Waste Generation</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- User data will be loaded here using jQuery -->
+                    </tbody>
+                </table>
+            </div>
+
+            <script src="assets/manage.php?file=ulbs"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

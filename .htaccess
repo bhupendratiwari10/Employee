@@ -1,0 +1,20 @@
+RewriteEngine On
+
+# Set default document
+DirectoryIndex login.php index.php
+
+# Security
+Options -Indexes -MultiViews
+
+# Protect sensitive directories
+RewriteRule ^inc/.*$ - [F]
+
+# HTTPS redirect (comment out if causing issues)
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Protect config files
+<FilesMatch "\.(htaccess|ini|log)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
