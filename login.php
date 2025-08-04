@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="icon" href="/Blog/wp-content/uploads/2024/06/cropped-ZW-Logo-footer-1-1-32x32.png" sizes="32x32" />
     <link rel="icon" href="/Blog/wp-content/uploads/2024/06/cropped-ZW-Logo-footer-1-1-192x192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/Blog/wp-content/uploads/2024/06/cropped-ZW-Logo-footer-1-1-180x180.png" />
-    <title>ZW | Employee Login</title>
+    <title>Tidy Rabbit | Employee Login</title>
     <link rel="stylesheet" href="index.css" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,0,0" />
@@ -263,7 +263,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <p class="small-p">Forgot Password?</p>
             </div>
         </div>
-        <p class="copyright small-p">— All rights reserved © ZW International —</p>
+        <p class="copyright small-p">— All rights reserved © Tidy Rabbit International —</p>
     </div>
     <img src="assets/Login%20Page%20-%20Employee.webp" class="background-image" />
     <a href="https://zw.international">

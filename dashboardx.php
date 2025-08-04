@@ -24,7 +24,7 @@ checklogin();
     <?php include('inc/views/header.php'); ?>
     <div class="container col-md-10" style='padding:5% 3%;'>
         <h1 style='font-weight:700;'>Hello <l style='text-transform:capitalize;'><?php echo $_COOKIE["username"]; ?></l>!</h1>
-        <h4>Welcome to The ZW Dashboard</h4> <hr>
+        <h4>Welcome to The Tidy Rabbit Dashboard</h4> <hr>
         <div class='row col-12 m-0 p-0' id='statsx'>
             <div class='col-md col-12 row'><cb class='col-3'><i class='mi-person-fill'></i></cb><bx class='col'><h2><?php echo countRows('zw_user'); ?></h2><p> Platform Users</p></bx></div>
             <div class='col-md col-12 row'><cb class='col-3'><i class='mi-th-large'></i></cb><bx class='col'><h2><?php echo countRows('zw_items'); ?></h2><p> Total Items</p></bx></div>

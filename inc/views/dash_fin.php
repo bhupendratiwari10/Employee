@@ -135,7 +135,7 @@
                         <div style="display:flex;flex-direction: column;align-items: center;width: 100%;">
                             <img src="<?php echo valByVal('username', $_COOKIE["username"], 'user_image', 'zw_user') ?>" class="col-7" style="aspect-ratio:1/1;object-fit:cover;border-radius:1001px;transform:scale(0.9);">
                             <h5 style='margin:0px 0px;'><l style="text-transform:capitalize;"><?php echo $_COOKIE["username"]; ?></l></h5>
-                            <p style='margin:0px 0px;color:gray;'><small>CTO - ZWGLOBAL</small></p><br>
+                            <p style='margin:0px 0px;color:gray;'><small>CTO - Tiddy Rabbit</small></p><br>
                         </div>
                         <div style='background:#000;padding:18px 11px;'></div>
                     </div>

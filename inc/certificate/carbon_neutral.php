@@ -14,7 +14,7 @@
     
     <body style="margin:0;padding:176px 5%;background: url('https://employee.tidyrabbit.com/sub/epr/assets/img/cert_bg.jpeg');margin:0px;background-size: 102%;background-repeat:no-repeat;">
             <center>
-                <img src='https://zwglobal.in/assets/zwnewlogo.png' style='width:176px;margin-bottom:48px;'>
+                <img src='https://employee.tidyrabbit.com/assets/zwnewlogo.png' style='width:176px;margin-bottom:48px;'>
                 
                 <h3 style='letter-spacing:6px;'>- CARBON NEUTRAL -</h3>
                 <h1 style='font-size:420%;margin-bottom:76px;'><b>CERTIFICATE</b></h1>
@@ -27,10 +27,10 @@
                 
                 <div class='col-10 row' style='margin-top:88px;'>
                     <div class='col-4' style='display:flex;flex-direction: column;flex-wrap:wrap;justify-content:center;align-content:center;'>
-                        <img src='https://zwglobal.in/assets/johnsign.png' style='width:60%;;margin-bottom:8px;'>
+                        <img src='https://employee.tidyrabbit.com/assets/johnsign.png' style='width:60%;;margin-bottom:8px;'>
                         <h1>John Doe</h1><h5>Manager</h5>
                     </div>
-                    <div class='col-4'><img src='https://zwglobal.in/assets/zwsigil.png' style='width:176px;margin:21px 0px;'></div>
+                    <div class='col-4'><img src='https://employee.tidyrabbit.com/assets/zwsigil.png' style='width:176px;margin:21px 0px;'></div>
                     <div class='col-4' style='display:flex;flex-direction: column;flex-wrap:wrap;justify-content:center;'><h4>27/02/2022</h4><h5>Date</h5></div>
                 </div>
             </center>

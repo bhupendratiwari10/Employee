@@ -340,7 +340,7 @@ label, small[for]{font-size:small;margin-left:11px;}
      </style>
 <div class="sidebar closes">
     <div class="logo-details">
-      <img src='http://zwglobal.in/assets/zwnewlogo.png' class='' style='width:70px;'>
+      <img src='http://employee.tidyrabbit.com/assets/zwnewlogo.png' class='' style='width:70px;'>
     </div>
     <ul class="nav-links">
       <li class="dashX">
