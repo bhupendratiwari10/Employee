@@ -1,0 +1,27 @@
+# Deployment Configuration
+
+# Files and directories to exclude from deployment
+[exclude]
+.git/
+.github/
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+tests/
+.vscode/
+.idea/
+
+# Post-deployment commands
+[post-deploy]
+# Add commands that should run after deployment
+# commands[] = "composer install --no-dev"
+# commands[] = "npm install --production"
+# commands[] = "php artisan migrate"
+
+# Environment
+[environment]
+type = "production"
+php_version = "8.1"
+node_version = "18"
