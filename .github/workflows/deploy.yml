@@ -1,0 +1,99 @@
+name: Deploy to Hostinger
+
+# Trigger deployment on push to main branch
+on:
+  push:
+    branches: [ main ]
+  # Allow manual deployment trigger
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Hostinger
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Checkout code
+    - name: 📥 Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    
+    # Step 2: Setup Node.js (if you have a Node.js project)
+    # - name: 🟢 Setup Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '18'
+    #     cache: 'npm'
+    
+    # Step 3: Install dependencies (if needed)
+    # - name: 📦 Install dependencies
+    #   run: npm ci --prefer-offline
+    
+    # Step 4: Build project (if needed)
+    # - name: 🔨 Build project
+    #   run: npm run build
+    
+    # Step 5: Deploy via SSH
+    - name: 🚀 Deploy to Hostinger
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.HOSTINGER_HOST }}
+        username: ${{ secrets.HOSTINGER_USERNAME }}
+        key: ${{ secrets.HOSTINGER_SSH_KEY }}
+        port: ${{ secrets.HOSTINGER_PORT }}
+        script: |
+          # Navigate to website directory
+          cd ${{ secrets.DEPLOY_PATH }}
+          
+          # Pull latest changes
+          echo "Pulling latest changes..."
+          git pull origin main
+          
+          # For PHP/Composer projects
+          # if [ -f "composer.json" ]; then
+          #   echo "Installing Composer dependencies..."
+          #   composer install --no-dev --optimize-autoloader
+          # fi
+          
+          # For Node.js projects
+          # if [ -f "package.json" ]; then
+          #   echo "Installing Node dependencies..."
+          #   npm ci --production
+          #   
+          #   # Build if needed
+          #   if [ -f "npm run build" ]; then
+          #     echo "Building project..."
+          #     npm run build
+          #   fi
+          # fi
+          
+          # For Laravel projects
+          # if [ -f "artisan" ]; then
+          #   echo "Running Laravel migrations..."
+          #   php artisan migrate --force
+          #   php artisan config:cache
+          #   php artisan route:cache
+          #   php artisan view:cache
+          # fi
+          
+          # Set correct permissions
+          echo "Setting permissions..."
+          find . -type d -not -path "./node_modules/*" -exec chmod 755 {} \;
+          find . -type f -not -path "./node_modules/*" -exec chmod 644 {} \;
+          
+          echo "✅ Deployment completed successfully!"
+    
+    # Optional: Send notification on success
+    # - name: 📧 Send success notification
+    #   if: success()
+    #   run: |
+    #     echo "Deployment successful!"
+    #     # Add notification logic here (Slack, Discord, Email, etc.)
+    
+    # Optional: Send notification on failure
+    # - name: 📧 Send failure notification
+    #   if: failure()
+    #   run: |
+    #     echo "Deployment failed!"
+    #     # Add notification logic here
