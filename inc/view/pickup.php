@@ -325,7 +325,7 @@ function getImageUrl($imagePath) {
         
         <div class="certificate-section">
             <h4>Certificate Preview</h4>
-            <iframe src="<?php echo PROJECT_URL; ?>sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($currentUrl); ?>" 
+            <iframe src="<?php echo PROJECT_URL; ?>/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($currentUrl); ?>" 
                     frameborder="0"></iframe>
         </div>
     </div>
