@@ -23,7 +23,7 @@ $is_local = (
 );
 
 define('ENVIRONMENT', $is_local ? 'development' : 'production');
-define('DEBUG_MODE', $is_local ? true : false);
+define('DEBUG_MODE', true);
 
 // =======================
 // Path Configuration
