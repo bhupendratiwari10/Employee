@@ -1,266 +1,404 @@
 <?php 
-// include "../function.php";
-// echo "Current File Path: " . __FILE__;
-// echo "Current Directory: " . dirname(__FILE__);
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if(!empty($_GET['id'])){
-    $id = $_GET['id'];
-    // Select Query
-    $query = "Select * from zw_pickups where id = $id";
-    $res = mysqli_query($con , $query);
-    $data = mysqli_fetch_assoc($res);
-    // $statusArray = ['Pickup Initiated' , 'Truck Departed to Weigh Bridge' , 'Truck at Weigh Bridge' , 'Truck Arrived at MRF' , 'Loading In Progress' , 'Truck Loaded' , 'Truck at Weigh Bridge' , 'In Transit For Disposal' , 'SuccessFully Disposed' , 'Successfully Endorsed By ULB'];
-    $newStatusArray = [array('Pickup Initiated' , 'Truck Departed to Weigh Bridge') ,'Truck at Weigh Bridge' , 'Truck Arrived at MRF' , 'Loading In Progress' , 'Truck Loaded' , 'Truck at Weigh Bridge' , 'In Transit For Disposal' , 'SuccessFully Disposed' , 'Successfully Endorsed By ULB' ];
-    $imageArray = ['' , 'weigh_bridge_certificate_picture' , 'truck_picture' , '', 'loaded_truck_picture' , 'loaded_weigh_bridge_certificate_picture' , 'truck_receipt' , 'recycling_certificate_picture' , 'ulb_endorsement_copy']; // Empty is For Those Steps where image is not available
-    
-    $dateArrayStepWise = ['pickup_date' , 'weight_bridge_certi_date' , 'loaded_truck_pic_date' ,'loaded_truck_pic_date' ,  'loaded_truck_picture_date' , 'loaded_weigh_bridge_certificate_date' , 'truck_receipt_date' , 'recycling_certificate_date'  , 'ulb_endorsement_copy_date'];
-    
-    $timeArray = ['time_str','weight_bridge_certi_time' , 'loaded_truck_pic_time' , 'loaded_truck_pic_time' , 'loaded_truck_picture_time' , 'loaded_weigh_bridge_certificate_time','truck_receipt_time' , 'recycling_certificate_time' ,  'ulb_endorsement_copy_time'];
-    $step = $data['steps'];
-    if($step > 8){
-        $step = 8;
-    }
-    
+// Only show errors in development mode
+if (defined('DEBUG_MODE') && DEBUG_MODE) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
 }
 
+// Secure the ID parameter
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+if (!$id) {
+    echo "<div class='alert alert-danger'>Invalid pickup ID</div>";
+    exit();
+}
+
+// Get pickup data with prepared statement
+$query = "SELECT * FROM zw_pickups WHERE id = ?";
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$data = mysqli_fetch_assoc($result);
+
+if (!$data) {
+    echo "<div class='alert alert-danger'>Pickup not found</div>";
+    exit();
+}
+
+// Status arrays
+$newStatusArray = [
+    ['Pickup Initiated', 'Truck Departed to Weigh Bridge'],
+    'Truck at Weigh Bridge',
+    'Truck Arrived at MRF',
+    'Loading In Progress',
+    'Truck Loaded',
+    'Truck at Weigh Bridge',
+    'In Transit For Disposal',
+    'Successfully Disposed',
+    'Successfully Endorsed By ULB'
+];
+
+// Image fields corresponding to each step
+$imageArray = [
+    '',
+    'weigh_bridge_certificate_picture',
+    'truck_picture',
+    '',
+    'loaded_truck_picture',
+    'loaded_weigh_bridge_certificate_picture',
+    'truck_receipt',
+    'recycling_certificate_picture',
+    'ulb_endorsement_copy'
+];
+
+// Date fields for each step
+$dateArrayStepWise = [
+    'pickup_date',
+    'weight_bridge_certi_date',
+    'loaded_truck_pic_date',
+    'loaded_truck_pic_date',
+    'loaded_truck_picture_date',
+    'loaded_weigh_bridge_certificate_date',
+    'truck_receipt_date',
+    'recycling_certificate_date',
+    'ulb_endorsement_copy_date'
+];
+
+// Time fields for each step
+$timeArray = [
+    'time_str',
+    'weight_bridge_certi_time',
+    'loaded_truck_pic_time',
+    'loaded_truck_pic_time',
+    'loaded_truck_picture_time',
+    'loaded_weigh_bridge_certificate_time',
+    'truck_receipt_time',
+    'recycling_certificate_time',
+    'ulb_endorsement_copy_time'
+];
+
+$step = isset($data['steps']) ? intval($data['steps']) : 0;
+if ($step > 8) {
+    $step = 8;
+}
+
+// Get the current URL for certificate generation
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https://' : 'http://';
+$currentUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+// Function to get image URL
+function getImageUrl($imagePath) {
+    if (!empty($imagePath)) {
+        // Check if it's already a full URL
+        if (filter_var($imagePath, FILTER_VALIDATE_URL)) {
+            return $imagePath;
+        }
+        // Otherwise, prepend PROJECT_URL
+        return PROJECT_URL . 'sub/epr/' . $imagePath;
+    }
+    return '';
+}
 ?>
+
 <style>
+    .pickup-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
     .box {
-    padding: 19px 0px;
-    border: 2px solid;
-    /*width: 52%;*/
-    margin-top: 3px;
-}
-    /* Styles for the modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .box:hover {
+        background-color: #e9ecef;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+    }
+    
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 5px;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        background: rgba(0,0,0,0.5);
+        border: none;
+        border-radius: 5px;
+        padding: 5px 15px;
+    }
+    
+    .modal-close:hover {
+        background: rgba(0,0,0,0.8);
+    }
+    
+    .content {
+        display: flex;
+        gap: 30px;
+    }
+    
+    .view {
+        flex: 1;
+    }
+    
+    .certificate-section {
+        flex: 0 0 520px;
+    }
+    
+    .date, .time, .status {
+        font-size: 14px;
+    }
+    
+    .view-image-button, .download-image-button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    .view-image-button {
+        color: white !important;
+        background: #ff8c00;
+    }
+    
+    .view-image-button:hover {
+        background: #ff7700;
+    }
+    
+    .download-image-button {
+        color: white !important;
+        background: #28a745;
+    }
+    
+    .download-image-button:hover {
+        background: #218838;
+    }
+    
+    iframe {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+        height: 700px;
+    }
+    
+    .status-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .status-link:hover {
+        text-decoration: underline;
+    }
+    
+    .header-row {
+        background-color: #343a40;
+        color: white;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+    
+    .no-image {
+        color: #6c757d;
+    }
+    
+    @media (max-width: 1200px) {
+        .content {
+            flex-direction: column;
         }
-
-        /* Styles for the modal content (the image) */
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 80%;
-            max-height: 80%;
+        
+        .certificate-section {
+            flex: 1;
+            max-width: 100%;
         }
-/*    .content {*/
-  /*overflow: hidden; */
-/*}*/
-
-.view {
-  float: left;
-  width: 50.33%; /* Set the width to divide the container into equal parts */
-  box-sizing: border-box; /* Include padding and border in the box's total width */
-}
-.iframe{
-    margin-left:50px !important;
-}
-.date , .time , .status {
-    font-size:14px;
-}
-.view-image-button{
-    padding: 8px;
-    color: orange!important;
-    background: white;
-}
-.download-image-button{
-    padding: 8px;
-    color: green!important;
-    background: white;
-}
-iframe {
-    border: 1px solid black;
-    margin: 2px;
-}
-.container.col-md-10{
-  padding: 7px 20px !important;
-}
+    }
 </style>
-<h2>PICKUP</h2>
-<hr>
-<div class = "content">
-<div class = "container view">
-<div class = "row">
-    <div class = "col-md-2">Date</div>
-    <div class = "col-md-2">Time</div>
-    <div class = "col-md-2">Record</div>
-</div>
- 
-<?php 
-// echo $step;die;
-for($i = 0;$i<$step;$i++){
+
+<div class="pickup-container">
+    <h2>PICKUP DETAILS</h2>
+    <hr>
     
-    if($data[$timeArray[$i]] == null || $data[$timeArray[$i]] == ''){
-        $time = '';
-    }
-    else{
-        $time = $data[$timeArray[$i]] ? date("H:i", strtotime($data[$timeArray[$i]])) : '';
-    }
-    
-    if(is_array($newStatusArray[$i])){
-        foreach($newStatusArray[$i] as $newStatusarray){
+    <div class="content">
+        <div class="view">
+            <div class="row header-row">
+                <div class="col-md-2">Date</div>
+                <div class="col-md-2">Time</div>
+                <div class="col-md-5">Status</div>
+                <div class="col-md-3">Actions</div>
+            </div>
+            
+            <?php 
+            for ($i = 0; $i < $step; $i++) {
+                // Get time value
+                $time = '';
+                if (!empty($data[$timeArray[$i]])) {
+                    $time = date("H:i", strtotime($data[$timeArray[$i]]));
+                }
+                
+                // Get date value
+                $date = '';
+                if (!empty($data[$dateArrayStepWise[$i]])) {
+                    $date = date('d-m-Y', strtotime($data[$dateArrayStepWise[$i]]));
+                }
+                
+                // Handle array status (multiple statuses for same step)
+                if (is_array($newStatusArray[$i])) {
+                    foreach ($newStatusArray[$i] as $statusText) {
+                        renderStatusRow($i, $date, $time, $statusText, $imageArray, $data);
+                    }
+                } else {
+                    renderStatusRow($i, $date, $time, $newStatusArray[$i], $imageArray, $data);
+                }
+            }
+            
+            function renderStatusRow($index, $date, $time, $statusText, $imageArray, $data) {
+                ?>
+                <div class="row box">
+                    <div class="col-md-2 date"><?php echo htmlspecialchars($date); ?></div>
+                    <div class="col-md-2 time"><?php echo htmlspecialchars($time); ?></div>
+                    <div class="col-md-5 status">
+                        <?php if (!empty($imageArray[$index]) && !empty($data[$imageArray[$index]])): ?>
+                            <a href="<?php echo htmlspecialchars(getImageUrl($data[$imageArray[$index]])); ?>" 
+                               target="_blank" class="status-link">
+                                <?php echo htmlspecialchars($statusText); ?>
+                            </a>
+                        <?php else: ?>
+                            <?php echo htmlspecialchars($statusText); ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-md-3">
+                        <?php if (!empty($imageArray[$index]) && !empty($data[$imageArray[$index]])): ?>
+                            <button class="view-image-button" 
+                                    data-src="<?php echo htmlspecialchars(getImageUrl($data[$imageArray[$index]])); ?>" 
+                                    title="View">
+                                <i class="fa fa-eye"></i> View
+                            </button>
+                            <button class="download-image-button" 
+                                    data-src="<?php echo htmlspecialchars(getImageUrl($data[$imageArray[$index]])); ?>" 
+                                    title="Download">
+                                <i class="fa fa-download"></i> Download
+                            </button>
+                        <?php else: ?>
+                            <span class="no-image">No image available</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php
+            }
             ?>
-            <div class = "row box">
-    <div class = "col-md-2 date"><?php echo  $dateArrayStepWise[$i] ? date('d-m-y', strtotime($data[$dateArrayStepWise[$i]])) : '';?></div>
-    <div class = "col-md-2 time"><?php echo $time?></div>
-    <div class = "col-md-5 status">
-    <?php if (!empty($imageArray[$i]) && !empty($data[$imageArray[$i]])): ?>
-        <a href="<?php echo $data[$imageArray[$i]]?>" target="_blank"><?php echo $newStatusarray?></a>
-    <?php else: ?>
-        <?php echo $newStatusarray; ?>
-    <?php endif; ?>
-    
+        </div>
+        
+        <div class="certificate-section">
+            <h4>Certificate Preview</h4>
+            <iframe src="<?php echo PROJECT_URL; ?>sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($currentUrl); ?>" 
+                    frameborder="0"></iframe>
+        </div>
     </div>
-    <?php 
-    if(!empty($imageArray[$i] && !empty($data[$imageArray[$i]]))){
-    ?>
-    <!--<img id="image" src="your_image.jpg" alt="Image">-->
-    <div class = "col-md-1"><button class = "btn-primary view-image-button" data-src = "<?php echo $data[$imageArray[$i]]?>" title="view"><i class="mi-eye-fill"></i></button></div>
-    <div class = "col-md-1"> <button class = "download-image-button" data-src = "<?php echo $data[$imageArray[$i]]?>" title="download"><i class="mi-file_download"></i></button></div>
-    <?php }?>
 </div>
-            <?php
-        }
-    }
-    else{
-        ?>
-        <div class = "row box">
-    <div class = "col-md-2 date"><?php echo $data[$dateArrayStepWise[$i]] ? date('d-m-y', strtotime($data[$dateArrayStepWise[$i]])) : '';?></div>
-    <div class = "col-md-2 time"><?php echo $time?></div>
-    <div class = "col-md-5 status">
-    <?php if (!empty($imageArray[$i]) && !empty($data[$imageArray[$i]])): ?>
-        <a href="<?php echo $data[$imageArray[$i]]?>" target="_blank"><?php echo $newStatusArray[$i]?></a>
-    <?php else: ?>
-        <?php echo $newStatusarray; ?>
-    <?php endif; ?>
-    </div>
-    <?php 
-    if(!empty($imageArray[$i] && !empty($data[$imageArray[$i]]))){
-    ?>
-    <!--<img id="image" src="your_image.jpg" alt="Image">-->
-    <div class = "col-md-1"><button class = "btn-primary view-image-button" data-src = "<?php echo $data[$imageArray[$i]]?>" title="view"><i class="mi-eye-fill"></i></button></div>
-    <div class = "col-md-1"> <button class = "download-image-button" data-src = "<?php echo $data[$imageArray[$i]]?>" title="download"><i class="mi-file_download"></i></button></div>
-    <?php }?>
-</div>
-   <?php }
-    
-?>
 
-<?php }?>
+<!-- Image Modal -->
+<div id="imageModal" class="modal">
+    <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+    <img class="modal-content" id="modalImage" alt="Document Preview">
 </div>
-<div id="downloadContent" class = "container" style="
-    /* margin-left: 110px; */
-    width: 24px;">
-    <div class = "iframe" >
-        <?php
-    // Get the current URL of the parent document
-    $parentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    ?>
-    <!--<button id = "downloadButton" data-src = "https://employee.tidyrabbit.com/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>"><i class="mi-file_download"></i></button>-->
-    <iframe  src="https://employee.tidyrabbit.com/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>" width="500px" height="600px" frameborder="0"></iframe>
-    </div>
-    
-</div>
-</div>
-<!-- The Modal -->
-    <div id="imageModal" class="modal">
-        <button type="button" class="btn btn-secondary" id="partner_cncl_btn2" data-dismiss="modal"onclick="closeModal()">&times;</button>
-        <img class="modal-content" id="image">
-    </div>
 
- 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
 <script>
-function generatePDF(content) {
-      // Create a new jsPDF instance
-      var pdf = new jsPDF();
-
-      // Generate PDF from HTML
-      pdf.html(content, {
-        callback: function(pdf) {
-          // Save the PDF as a file
-          pdf.save('output.pdf');
-        }
-      });
-    }
 $(document).ready(function() {
-   
+    // View image button click
     $(".view-image-button").click(function() {
-        var dataSrc = $(this).data("src");
-        // Now you have the data-src value, you can use it in your viewImage function
-        viewImage(dataSrc);
+        var imageSrc = $(this).data("src");
+        viewImage(imageSrc);
     });
+    
+    // Download image button click
     $(".download-image-button").click(function() {
-        var dataSrc = $(this).data("src");
-        // Now you have the data-src value, you can use it in your viewImage function
-        downloadImage(dataSrc);
+        var imageSrc = $(this).data("src");
+        downloadImage(imageSrc);
+    });
+    
+    // Close modal when clicking outside the image
+    $("#imageModal").click(function(e) {
+        if (e.target.id === "imageModal") {
+            closeModal();
+        }
+    });
+    
+    // Close modal with Escape key
+    $(document).keydown(function(e) {
+        if (e.key === "Escape") {
+            closeModal();
+        }
     });
 });
-        // Function to view the image in a new tab
-        function viewImage(src) {
-            var imageSrc =src;
-            
-             // Get references to the modal and the image
-        var modal = document.getElementById("imageModal");
-        var image = document.getElementById("image");
-        // When the "View" button is clicked, display the modal
-            modal.style.display = "block";
-            image.src = imageSrc;
-       
-            // window.open(imageSrc, "_blank");
-        }
 
-        // Function to trigger the image download
-        function downloadImage(src) {
-            
-            var imageSrc = src;
-// Get the file extension
-var fileExtension = imageSrc.split('.').pop();
+// Function to view the image in modal
+function viewImage(src) {
+    var modal = document.getElementById("imageModal");
+    var image = document.getElementById("modalImage");
+    
+    modal.style.display = "block";
+    image.src = src;
+}
 
-// Convert to lowercase (optional, for consistency)
-fileExtension = fileExtension.toLowerCase();
-            // Create an anchor element to trigger the download
-            var link = document.createElement("a");
-            link.href = imageSrc;
-            link.download = "image."+fileExtension;
-            link.click();
-        }
-        // Function to close the modal
-        function closeModal() {
-            // alert("aa gaya");
-            $('#imageModal').hide(); 
-        }
-        
-        
-         $('#downloadButton').click(function() {
-	      // Get the HTML content
-	      var url = $(this).data("src");
-	     // var url = 'https://example.com';
-		console.log(url);
-	      // Fetch HTML content from the URL
-	      $.get(url, function(data) {
-		// Create a new jsPDF instance
-		var pdf = new html2pdf();
+// Function to download the image
+function downloadImage(src) {
+    // Extract filename from URL
+    var filename = src.split('/').pop();
+    if (!filename) {
+        filename = 'download';
+    }
+    
+    // Create temporary anchor element
+    var link = document.createElement("a");
+    link.href = src;
+    link.download = filename;
+    link.style.display = "none";
+    
+    // Add to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
-		// Generate PDF from HTML content
-		pdf.from(data).outputPdf('dataurlnewwindow');
-
-	      });
-
-	 });
-
-    </script>
+// Function to close the modal
+function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+    document.getElementById("modalImage").src = "";
+}
+</script>

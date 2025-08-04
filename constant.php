@@ -103,6 +103,11 @@ define('ALLOWED_FILE_TYPES', ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx']);
 // Pagination
 define('RECORDS_PER_PAGE', 20);
 
+define('LOGO_URL', PROJECT_URL . 'assets/logo.svg');
+define('CERT_BG_URL', PROJECT_URL . 'sub/epr/assets/img/cert_bg.jpeg');
+define('JOHN_SIGN_URL', PROJECT_URL . 'assets/johnsign.png');
+define('ZW_SIGIL_URL', PROJECT_URL . 'assets/zwsigil.png');
+
 // =======================
 // Error Handling
 // =======================

@@ -245,7 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <div class="login-container">
-        <img src="" />
+        <img src="<?php echo ASSETS_PATH?>'logo.svg" />
         <h1>Welcome !</h1>
         <p class="thrilled">Glad to have you back, valued team member !</p>
 
@@ -266,7 +266,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p class="copyright small-p">— All rights reserved © Tidy Rabbit International —</p>
     </div>
     <img src="assets/Login%20Page%20-%20Employee.webp" class="background-image" />
-    <a href="https://zw.international">
+    <a href="<?php echo PROJECT_URL?>">
         <div class="go-back">
             <p>Go Back</p>
             <div class="symbol-bg">

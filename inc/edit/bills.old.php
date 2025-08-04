@@ -1,238 +1,391 @@
-    <?php
-        ini_set ('display_errors', 1);  
-ini_set ('display_startup_errors', 1);  
-error_reporting (E_ALL); 
-$query = "SELECT * FROM `zw_Bill` where id = $uid";
-$data = mysqli_query($con, $query);
-$res = mysqli_fetch_assoc($data);
-$sqlItems = "SELECT * FROM zw_Bill_items WHERE bill_id = {$res['id']}";
-$dataItems = mysqli_query($con, $sqlItems);
+<?php
+// Only show errors in development mode
+if (defined('DEBUG_MODE') && DEBUG_MODE) {
+    ini_set('display_errors', 1);  
+    ini_set('display_startup_errors', 1);  
+    error_reporting(E_ALL);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+}
 
+// Secure the ID parameter
+$uid = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if (!$uid) {
+    header('Location: ' . PROJECT_URL . 'sub/epr/manage.php?t=bill');
+    exit();
+}
+
+// Get bill data with prepared statement
+$query = "SELECT * FROM `zw_Bill` WHERE id = ?";
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param($stmt, "i", $uid);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$res = mysqli_fetch_assoc($result);
+
+if (!$res) {
+    alert("Bill not found");
+    header('Location: ' . PROJECT_URL . 'sub/epr/manage.php?t=bill');
+    exit();
+}
+
+// Get bill items
+$sqlItems = "SELECT * FROM zw_Bill_items WHERE bill_id = ?";
+$stmtItems = mysqli_prepare($con, $sqlItems);
+mysqli_stmt_bind_param($stmtItems, "i", $res['id']);
+mysqli_stmt_execute($stmtItems);
+$dataItems = mysqli_stmt_get_result($stmtItems);
+$resItems = mysqli_fetch_all($dataItems, MYSQLI_ASSOC);
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize inputs
+    $customer_id = intval($_POST["customer_id"]);
+    $subject = mysqli_real_escape_string($con, $_POST["subject"]);
+    $invoice_date = mysqli_real_escape_string($con, $_POST["invoice_date"]);
+    $due_date = mysqli_real_escape_string($con, $_POST["due_date"]);
+    $terms = isset($_POST["terms"]) ? mysqli_real_escape_string($con, $_POST["terms"]) : '';
+    $sales_person = intval($_POST["sales_person"]);
+    $remarks = mysqli_real_escape_string($con, $_POST["remarks"]);
+    $toc = mysqli_real_escape_string($con, $_POST["toc"]);
+    $mail_to = mysqli_real_escape_string($con, $_POST["mail_to"]);
+    $subTotal = floatval($_POST['subTotal']);
     
-    $customer_id = $_POST["customer_id"];
-    $subject = $_POST["subject"];
-    $invoice_date = $_POST["invoice_date"];
-    $due_date = $_POST["due_date"];
-    //$terms = $_POST["terms"];
-    $sales_person = $_POST["sales_person"];
-    $remarks = $_POST["remarks"];
-    $toc = $_POST["toc"];
-    $mail_to = $_POST["mail_to"];
-     $subTotal = $_POST['subTotal'];
+    // Update bill with prepared statement
     $sqlInvoice = "UPDATE zw_Bill
-              SET customer_id = '$customer_id',
-                  subject = '$subject',
-                  bill_date = '$invoice_date',
-                  due_date = '$due_date',
-                  terms = '$terms',
-                  sales_person = '$sales_person',
-                  remarks = '$remarks',
-                  toc = '$toc',
-                  mail_to = '$mail_to' ,
-                  subTotal = '$subTotal' 
-              WHERE id = $uid";
-
+                   SET customer_id = ?,
+                       subject = ?,
+                       bill_date = ?,
+                       due_date = ?,
+                       terms = ?,
+                       sales_person = ?,
+                       remarks = ?,
+                       toc = ?,
+                       mail_to = ?,
+                       subTotal = ?
+                   WHERE id = ?";
     
-    if (mysqli_query($con, $sqlInvoice)) {
-         alert("Bill Updated successfully.");
-    } else {
-        alert("Error: " . mysqli_error($con));
-    }
-
-    $invoice_id = mysqli_insert_id($con);
-
-    $itemIds = $_POST["item_id"];
-    $quantities = $_POST["quantity"];
-    $rates = $_POST["rate"];
-    $discounts = $_POST["discount"];
-
-    for ($i = 0; $i < count($itemIds); $i++) {
-        $itemId = $itemIds[$i];
-        $quantity = $quantities[$i];
-        $rate = $rates[$i];
-        $discount = $discounts[$i];
-
-        $sqlItems = "UPDATE zw_Bill_items
-            SET quantity = '$quantity',
-                rate = '$rate',
-                discount = '$discount'
-            WHERE bill_id = '$invoice_id' AND item_name = '$itemId'";
-
+    $stmtUpdate = mysqli_prepare($con, $sqlInvoice);
+    mysqli_stmt_bind_param($stmtUpdate, "isssssissdi", 
+        $customer_id, $subject, $invoice_date, $due_date, 
+        $terms, $sales_person, $remarks, $toc, $mail_to, $subTotal, $uid
+    );
+    
+    if (mysqli_stmt_execute($stmtUpdate)) {
+        // Delete existing items first
+        $deleteQuery = "DELETE FROM zw_Bill_items WHERE bill_id = ?";
+        $stmtDelete = mysqli_prepare($con, $deleteQuery);
+        mysqli_stmt_bind_param($stmtDelete, "i", $uid);
+        mysqli_stmt_execute($stmtDelete);
         
-        if (mysqli_query($con, $sqlItems)) {
-        } else {
-            alert("Error: " . mysqli_error($con));
+        // Insert new items
+        $itemIds = $_POST["item_id"];
+        $quantities = $_POST["quantity"];
+        $rates = $_POST["rate"];
+        $discounts = $_POST["discount"];
+        
+        $insertQuery = "INSERT INTO zw_Bill_items (bill_id, item_name, quantity, rate, discount) VALUES (?, ?, ?, ?, ?)";
+        $stmtInsert = mysqli_prepare($con, $insertQuery);
+        
+        for ($i = 0; $i < count($itemIds); $i++) {
+            $itemName = mysqli_real_escape_string($con, $itemIds[$i]);
+            $quantity = floatval($quantities[$i]);
+            $rate = floatval($rates[$i]);
+            $discount = floatval($discounts[$i]);
+            
+            mysqli_stmt_bind_param($stmtInsert, "isddd", $uid, $itemName, $quantity, $rate, $discount);
+            mysqli_stmt_execute($stmtInsert);
         }
-        header('Location: https://employee.tidyrabbit.com/sub/epr/manage.php?t=bill');
+        
+        echo "<script>alert('Bill Updated successfully.');</script>";
+        echo "<script>window.location.href = '" . PROJECT_URL . "sub/epr/manage.php?t=bill';</script>";
+        exit();
+    } else {
+        echo "<script>alert('Error updating bill: " . mysqli_error($con) . "');</script>";
     }
 }
 ?>
+
+<style>
+    .form-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .item-group {
+        background-color: #f8f9fa;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        align-items: center;
+    }
+    
+    .item-group input, .item-group select {
+        margin-bottom: 10px;
+    }
+    
+    input[type='text'], input[type='email'], input[type='date'], select, textarea {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+    
+    input[type='text']:focus, input[type='email']:focus, input[type='date']:focus, 
+    select:focus, textarea:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    button[type="submit"], #addItem {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background-color 0.3s;
+    }
+    
+    button[type="submit"]:hover, #addItem:hover {
+        background-color: #0056b3;
+    }
+    
+    .delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .delete:hover {
+        background-color: #c82333;
+    }
+    
+    h2, h3 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+    
+    #subTotal {
+        background-color: #e9ecef;
+        font-weight: bold;
+    }
+</style>
+
+<div class="form-container">
     <h2>Update Bill</h2>
-    <form method="post" class="row" action="">
+    <form method="post" class="row g-3" action="">
         <div class='col-md-3'>
             <label for="customer_id">Select Vendor</label>
             <select id="customer_id" class='form-select' name="customer_id" required>
                 <option value="" disabled>Select Vendor</option>
-                <?php optionPrintAdv("zw_company","id","company_name" , $res['customer_id']); ?>
+                <?php optionPrintAdv("zw_company", "id", "company_name", $res['customer_id']); ?>
             </select>
         </div>
+        
         <div class='col-md-3'>
             <label for="subject">Subject</label>
-            <input type='text' class='form-control' name='subject' value = "<?php echo $res['subject']?>" required>
+            <input type='text' class='form-control' id="subject" name='subject' 
+                   value="<?php echo htmlspecialchars($res['subject']); ?>" required>
         </div>
+        
         <div class='col-md-3'>
             <label for="invoice_date">Bill Date</label>
-            <input type='date' class='form-control' name='invoice_date' value = "<?php echo $res['bill_date']?>" required>
+            <input type='date' class='form-control' id="invoice_date" name='invoice_date' 
+                   value="<?php echo htmlspecialchars($res['bill_date']); ?>" required>
         </div>
+        
         <div class='col-md-3'>
             <label for="due_date">Due Date</label>
-            <input type='date' class='form-control' name='due_date' value = "<?php echo $res['due_date']?>" required>
+            <input type='date' class='form-control' id="due_date" name='due_date' 
+                   value="<?php echo htmlspecialchars($res['due_date']); ?>" required>
         </div>
+        
         <div class='col-md-6'>
             <label for="mail_to">Mail To (BCC Email)</label>
-            <input type='email' class='form-control' name='mail_to' value = "<?php echo $res['mail_to']?>">
+            <input type='email' class='form-control' id="mail_to" name='mail_to' 
+                   value="<?php echo htmlspecialchars($res['mail_to']); ?>">
         </div>
+        
         <div class='col-md-6'>
             <label for="sales_person">Select Salesperson</label>
             <select id="sales_person" class='form-select' name="sales_person" required>
                 <option value="" disabled>Select Salesperson</option>
-                <?php optionPrintAdv("zw_user WHERE user_role='4'","id","username" , $res['sales_person']); ?>
+                <?php optionPrintAdv("zw_user WHERE user_role='4'", "id", "username", $res['sales_person']); ?>
             </select>
         </div>
+        
         <div class='col-md-6'>
             <label for="remarks">Remarks</label>
-            <textarea class='form-control' name='remarks' rows='3'><?php echo $res['remarks']?></textarea>
+            <textarea class='form-control' id="remarks" name='remarks' rows='3'><?php echo htmlspecialchars($res['remarks']); ?></textarea>
         </div>
+        
         <div class='col-md-6'>
-            <label for="toc">TOC</label>
-            <textarea class='form-control' name='toc' rows='3'><?php echo $res['toc']?></textarea>
+            <label for="toc">Terms and Conditions</label>
+            <textarea class='form-control' id="toc" name='toc' rows='3'><?php echo htmlspecialchars($res['toc']); ?></textarea>
         </div>
+        
         <div class='col-md-3'>
-            <label for="toc">Sub Total</label>
+            <label for="subTotal">Sub Total</label>
             <input type='text' class='form-control' name='subTotal' id="subTotal" readonly>
         </div>
         
-        <style>input[type='text'],select{padding:10px 21px;border:1px solid gray;border-radius:8px;transform:scale(0.96);}</style>
-        
-        <h3>Invoice Items:</h3>
-        <div id="items">
-            <!-- Create the first item select with options from zw_items table -->
-         
-          <?php if(mysqli_num_rows($dataItems) >= 1){
-           foreach($resItmes as $itemData) { ?>
-            <div class="item-group row table_row">
-               <!-- <select class="col-md-3 item-select " name="item_id[]" required>
-                    <option  disabled value="">Select an item</option>
-                    <?php optionPrintAdv("zw_items","id","name" , $itemData['item_name']); ?>
-                </select> -->
-             <input type="text" class="col-md-3 itemName" name="item_id[]" value = "<?php echo $itemData['item_name']?>"  placeholder="Item Name" required>
-                <input type="text" class="col-md-3 quantity" name="quantity[]" placeholder="Quantity" value = "<?php echo $itemData['quantity']?>" required>
-                <input type="text" class="col-md-3 rate" name="rate[]" placeholder="Rate" value = "<?php echo $itemData['rate']?>" required>
-                <input type="text" class="col-md-3 productDiscount" name="discount[]" value = "<?php echo $itemData['discount']?>" placeholder="Discount">
+        <div class="col-12">
+            <h3>Bill Items:</h3>
+            <div id="items">
+                <?php if(count($resItems) > 0): ?>
+                    <?php foreach($resItems as $itemData): ?>
+                        <div class="item-group row table_row">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control itemName" name="item_id[]" 
+                                       value="<?php echo htmlspecialchars($itemData['item_name']); ?>" 
+                                       placeholder="Item Name" required>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control quantity" name="quantity[]" 
+                                       placeholder="Quantity" value="<?php echo htmlspecialchars($itemData['quantity']); ?>" 
+                                       step="0.01" required>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control rate" name="rate[]" 
+                                       placeholder="Rate" value="<?php echo htmlspecialchars($itemData['rate']); ?>" 
+                                       step="0.01" required>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control productDiscount" name="discount[]" 
+                                       value="<?php echo htmlspecialchars($itemData['discount']); ?>" 
+                                       placeholder="Discount" step="0.01">
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-danger delete">Delete</button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="item-group row table_row">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control itemName" name="item_id[]" 
+                                   placeholder="Item Name" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control quantity" name="quantity[]" 
+                                   placeholder="Quantity" step="0.01" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control rate" name="rate[]" 
+                                   placeholder="Rate" step="0.01" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control productDiscount" name="discount[]" 
+                                   placeholder="Discount" step="0.01">
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
-            <?php }} else { ?>
-            <div class="item-group row table_row">
-                <!--<select class="col-md-3 item-select" name="item_id[]" required>
-                    <option  disabled value="">Select an item</option>
-                    <?php optionPrintAdv("zw_items","id","name"); ?>-->
-                </select>
-                <input type="text" class="col-md-3 itemName" name="item_id[]"  placeholder="Item Name" required>
-                <input type="text" class="col-md-3 quantity" name="quantity[]" placeholder="Quantity" required>
-                <input type="text" class="col-md-3 rate" name="rate[]" placeholder="Rate" required>
-                <input type="text" class="col-md-3 productDiscount" name="discount[]" placeholder="Discount">
-            </div>
-            <?php }?>
-            
+            <button type="button" class="btn btn-secondary" id="addItem">Add Item</button>
         </div>
-        <button type="button" id="addItem">Add Item</button>
-        <div>
-            <button type="submit">Submit</button>
+        
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Update Bill</button>
+            <a href="<?php echo PROJECT_URL; ?>sub/epr/manage.php?t=bill" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
-   <!-- Add this JavaScript code inside your <script> tag -->
+
 <script>
-  // Function to calculate subtotal
-  function calculateSubTotal() {
-      console.log("Function Call");
-    let subTotal = 0;
-    $('.table_row').each(function() {
-      var row = $(this);
-      var quantityValue = parseFloat(row.find('.quantity').val()) || 0;
-      var rateValue = parseFloat(row.find('.rate').val()) || 0;
-      var productDiscountValue = parseFloat(row.find('.productDiscount').val()) || 0;
-      subTotal += (quantityValue * rateValue) - productDiscountValue;
-    });
-    $('#subTotal').val(subTotal.toFixed(2)); // Display with 2 decimal places
-  }
+$(document).ready(function() {
+    // Function to calculate subtotal
+    function calculateSubTotal() {
+        let subTotal = 0;
+        $('.table_row').each(function() {
+            var row = $(this);
+            var quantityValue = parseFloat(row.find('.quantity').val()) || 0;
+            var rateValue = parseFloat(row.find('.rate').val()) || 0;
+            var productDiscountValue = parseFloat(row.find('.productDiscount').val()) || 0;
+            var lineTotal = (quantityValue * rateValue) - productDiscountValue;
+            subTotal += lineTotal;
+        });
+        $('#subTotal').val(subTotal.toFixed(2));
+    }
 
-  // Attach change event handler using event delegation
-  $(document).on('change', '.quantity, .rate, .productDiscount', function() {
+    // Calculate on page load
     calculateSubTotal();
-  });
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const addItemButton = document.getElementById('addItem');
-    const itemsContainer = document.getElementById('items');
-	
-    addItemButton.addEventListener('click', function() {
-      // Create a new item input group
-      const itemGroup = document.createElement('div');
-      itemGroup.classList.add('row');
-      itemGroup.classList.add('item-group', 'row', 'table_row');
-
-      // Clone the first item select with options
-      const itemSelect = document.querySelector('.itemName').cloneNode(true);
-
-      // Reset the cloned item select to its default value
-      itemSelect.selectedIndex = 0;
-
-      // Append the cloned item select to the item group
-      itemGroup.appendChild(itemSelect);
-
-      // Create quantity, rate, and discount inputs
-      const quantityInput = document.createElement('input');
-      quantityInput.type = 'text';
-      quantityInput.name = 'quantity[]';
-      quantityInput.placeholder = 'Quantity';
-      quantityInput.required = true;
-      quantityInput.classList.add('col-md-3', 'quantity');
-
-      const rateInput = document.createElement('input');
-      rateInput.type = 'text';
-      rateInput.name = 'rate[]';
-      rateInput.placeholder = 'Rate';
-      rateInput.required = true;
-      rateInput.classList.add('col-md-3', 'rate');
-
-      const discountInput = document.createElement('input');
-      discountInput.type = 'text';
-      discountInput.name = 'discount[]';
-      discountInput.placeholder = 'Discount (in INR)';
-      discountInput.classList.add('col-md-2', 'productDiscount');
-
-      // Create a delete button
-      const deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Delete';
-      deleteButton.classList.add('col-md-1', 'btn', 'btn-danger', 'delete');
-      deleteButton.addEventListener('click', function() {
-        // Remove the item group when the delete button is clicked
-        itemsContainer.removeChild(itemGroup);
-        calculateSubTotal(); // Recalculate subtotal after item is deleted
-      });
-
-      // Append the inputs and delete button to the item group
-      itemGroup.appendChild(quantityInput);
-      itemGroup.appendChild(rateInput);
-      itemGroup.appendChild(discountInput);
-      itemGroup.appendChild(deleteButton);
-
-      // Add the item group to the items container
-      itemsContainer.appendChild(itemGroup);
+    // Attach change event handler using event delegation
+    $(document).on('input change', '.quantity, .rate, .productDiscount', function() {
+        calculateSubTotal();
     });
-  });
-</script>
 
-</body>
-</html>
+    // Delete button handler
+    $(document).on('click', '.delete', function() {
+        $(this).closest('.item-group').remove();
+        calculateSubTotal();
+    });
+
+    // Add item button
+    $('#addItem').on('click', function() {
+        const newItemGroup = `
+            <div class="item-group row table_row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control itemName" name="item_id[]" 
+                           placeholder="Item Name" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control quantity" name="quantity[]" 
+                           placeholder="Quantity" step="0.01" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control rate" name="rate[]" 
+                           placeholder="Rate" step="0.01" required>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control productDiscount" name="discount[]" 
+                           placeholder="Discount" step="0.01">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger delete">Delete</button>
+                </div>
+            </div>
+        `;
+        $('#items').append(newItemGroup);
+    });
+
+    // Form validation
+    $('form').on('submit', function(e) {
+        let isValid = true;
+        
+        // Check if at least one item exists
+        if ($('.table_row').length === 0) {
+            alert('Please add at least one item');
+            isValid = false;
+        }
+        
+        // Validate dates
+        const billDate = new Date($('#invoice_date').val());
+        const dueDate = new Date($('#due_date').val());
+        
+        if (dueDate < billDate) {
+            alert('Due date cannot be before bill date');
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
