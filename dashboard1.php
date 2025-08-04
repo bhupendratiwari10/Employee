@@ -213,7 +213,7 @@ $combinedArray = json_encode($combinedArray);
             <div class="col-7 row" style=''>
                 <div class='col-8'>
                     <h1 style='font-weight:700;'>Hello <l style='text-transform:capitalize;'><?php echo $_COOKIE["username"]; ?></l>!</h1>
-                    <h4>Welcome to ZW's Dashboard !</h4> <br>
+                    <h4>Welcome to Tidy Rabbit Dashboard !</h4> <br>
                 
                     <div class="card px-5 py-5" style=''>
                         <h2><?php echo number_format($totalWasteTon , 2);?> Tons</h2> of Plastic Prevented From Entering The Environment

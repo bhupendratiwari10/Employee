@@ -4,7 +4,7 @@
             <div class="col-lg-7 row" style=''>
                 <div class='col-lg-8'>
                     <h1 style='font-weight:700;'>Hello <l style='text-transform:capitalize;'><?php echo $_COOKIE["username"]; ?></l>!</h1>
-                    <h4>Welcome to ZW's Dashboard !</h4> <br>
+                    <h4>Welcome to Tidy Rabbit Dashboard !</h4> <br>
                     
                 </div>
             </div>

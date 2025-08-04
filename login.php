@@ -245,7 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <div class="login-container">
-        <img src="<?php echo ASSETS_URL?>'logo.svg" />
+        <img src="<?php echo ASSETS_URL?>logo.svg" />
         <h1>Welcome !</h1>
         <p class="thrilled">Glad to have you back, valued team member !</p>
 
