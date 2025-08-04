@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             alert("Error: " . mysqli_error($con));
         }
-        header('Location: https://zwindia.in/sub/epr/manage.php?t=bill');
+        header('Location: https://employee.tidyrabbit.com/sub/epr/manage.php?t=bill');
     }
 }
 ?>

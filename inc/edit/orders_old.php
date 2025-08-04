@@ -67,7 +67,7 @@ for ($i = 0; $i < count($itemIds); $i++) {
 }
 
 
-  header('Location: https://zwindia.in/sub/epr/manage.php?t=orders');
+  header('Location: https://employee.tidyrabbit.com/sub/epr/manage.php?t=orders');
  
 }
 ?>

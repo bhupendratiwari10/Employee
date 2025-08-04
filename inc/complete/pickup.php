@@ -30,7 +30,7 @@ $costPriceDescription = !empty($_POST['cost_price_description']) ? mysqli_real_e
       $query = "Update  zw_items set item_type = '$itemType', gst_percentage = '$gst_percentage', name = '$name', sku = '$sku', unit = '$unit', hsn_code = '$hsnCode', tax_preference = '$taxPreference', selling_price = '$sellingPrice', selling_price_account = '$sellingPriceAccount', selling_price_description = '$sellingPriceDescription', cost_price = '$costPrice', cost_price_account = '$costPriceAccount', cost_price_description = '$costPriceDescription' where id = $uid";
     if (mysqli_query($con, $query)) {
         echo "<script>alert('Item Updated successfully.');</script>";
-     header('Location: https://zwindia.in/sub/epr/manage.php?t=items');
+     header('Location: https://employee.tidyrabbit.com/sub/epr/manage.php?t=items');
     } else {
         echo "<script>alert('Error: " . mysqli_error($con) . "');</script>";
     }
@@ -495,7 +495,7 @@ $(document).ready(function () {
     $pages.eq(pageIndex).show();
     // console.log('submit' , submit);
     if(submit == true){
-          window.location.href = "https://zwindia.in/sub/epr/manage.php?t=pickups";
+          window.location.href = "https://employee.tidyrabbit.com/sub/epr/manage.php?t=pickups";
     }
   }
 

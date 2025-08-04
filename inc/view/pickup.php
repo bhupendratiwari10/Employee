@@ -169,7 +169,7 @@ for($i = 0;$i<$step;$i++){
     // Get the current URL of the parent document
     $parentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     ?>
-    <!--<button id = "downloadButton" data-src = "https://zwindia.in/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>"><i class="mi-file_download"></i></button>-->
+    <!--<button id = "downloadButton" data-src = "https://employee.tidyrabbit.com/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>"><i class="mi-file_download"></i></button>-->
     <iframe  src="https://employee.tidyrabbit.com/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>" width="500px" height="600px" frameborder="0"></iframe>
     </div>
     

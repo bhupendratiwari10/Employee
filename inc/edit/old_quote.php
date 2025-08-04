@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if (mysqli_query($con, $sqlItems)) {
           
-          header('Location: https://zwindia.in/sub/epr/manage.php?t=quote');
+          header('Location: https://employee.tidyrabbit.com/sub/epr/manage.php?t=quote');
           die;
         } else {
             alert("Error: " . mysqli_error($con));

@@ -1,5 +1,5 @@
-<script src="https://zwindia.in/sub/epr/assets/js/jquery.js"></script>
-<link rel="stylesheet" href="https://zwindia.in/sub/epr/assets/css/melticon.css">
+<script src="https://employee.tidyrabbit.com/sub/epr/assets/js/jquery.js"></script>
+<link rel="stylesheet" href="https://employee.tidyrabbit.com/sub/epr/assets/css/melticon.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alata&amp;family=Ubuntu&amp;family=Poppins&amp;display=swap">
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-print-css/css/bootstrap-print.min.css" media="print">
@@ -245,8 +245,8 @@ for($i = 0;$i<$step;$i++){
     // Get the current URL of the parent document
     $parentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     ?>
-    <!--<button id = "downloadButton" data-src = "https://zwindia.in/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>"><i class="mi-file_download"></i></button>-->
-    <iframe  src="https://zwindia.in/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>&flag=true" width="500px" height="3000px" frameborder="0"></iframe>
+    <!--<button id = "downloadButton" data-src = "https://employee.tidyrabbit.com/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>"><i class="mi-file_download"></i></button>-->
+    <iframe  src="https://employee.tidyrabbit.com/sub/epr/inc/certificate/pickup_certificate.php?url=<?php echo urlencode($parentUrl);?>&flag=true" width="500px" height="3000px" frameborder="0"></iframe>
     </div>
     
 </div>
@@ -278,13 +278,13 @@ $(document).ready(function() {
     $(".view-image-button").click(function() {
         var dataSrc = $(this).data("src");
         // Now you have the data-src value, you can use it in your viewImage function
-        dataSrc = "https://zwindia.in/sub/epr/"+dataSrc;
+        dataSrc = "https://employee.tidyrabbit.com/sub/epr/"+dataSrc;
         viewImage(dataSrc);
     });
     $(".download-image-button").click(function() {
         var dataSrc = $(this).data("src");
         // Now you have the data-src value, you can use it in your viewImage function
-        	dataSrc = "https://zwindia.in/sub/epr/"+dataSrc;
+        	dataSrc = "https://employee.tidyrabbit.com/sub/epr/"+dataSrc;
         downloadImage(dataSrc);
     });
 });

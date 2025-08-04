@@ -64,7 +64,7 @@
 <div class="text-container">
 	<span id="t1_2" class="t s0_2" data-mappings='[[9,"fi"]]'>Recycling/Coprocessing Certiﬁcate </span>
 	<span id="certificate" class="t s1_1">
-		<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['recycling_certificate_picture']; ?>" style="height: 1050px;width: 755px;margin-left: -50px;margin-bottom: -90px;">
+		<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['recycling_certificate_picture']; ?>" style="height: 1050px;width: 755px;margin-left: -50px;margin-bottom: -90px;">
 	</span>
 </div>
 <!-- End text definitions -->

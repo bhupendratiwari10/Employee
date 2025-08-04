@@ -65,9 +65,9 @@
 	<span id="t1_2" class="t s0_2" data-mappings='[[9,"fi"]]'>EPR Certiﬁcate </span>
 	<span id="certificate" class="t s1_1">
 	<?php
-	//$parentUrl = 'https://zwindia.in/sub/epr/view.php?type=pickups&id='.$pickupsid;
+	//$parentUrl = 'https://employee.tidyrabbit.com/sub/epr/view.php?type=pickups&id='.$pickupsid;
 	?>
-		<iframe  src="https://zwindia.in/sub/epr/inc/reports/eprpickups/pickup_certificate.php?pid=<?php echo $pickupsid; ?>" width="740px" height="1050px" style="margin-left: -94px;margin-bottom: -100px;" frameborder="0"></iframe>
+		<iframe  src="https://employee.tidyrabbit.com/sub/epr/inc/reports/eprpickups/pickup_certificate.php?pid=<?php echo $pickupsid; ?>" width="740px" height="1050px" style="margin-left: -94px;margin-bottom: -100px;" frameborder="0"></iframe>
 	</span>
 </div>
 <!-- End text definitions -->

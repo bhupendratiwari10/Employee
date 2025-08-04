@@ -64,7 +64,7 @@
 <div class="text-container">
 	<span id="t1_3" class="t s0_3">ULB Endorsement copy </span>
 	<span id="certificate" class="t s1_1">
-		<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['ulb_endorsement_copy']; ?>" style="height: 1050px;width: 755px;margin-left: -50px;margin-bottom: -90px;">
+		<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['ulb_endorsement_copy']; ?>" style="height: 1050px;width: 755px;margin-left: -50px;margin-bottom: -90px;">
 	</span>
 </div>
 <!-- End text definitions -->

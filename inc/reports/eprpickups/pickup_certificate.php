@@ -32,7 +32,7 @@ $pickupsid = $_GET['pid'];
     $clientData = mysqli_fetch_assoc($res2);
     $cientName = $clientData['customer_display_name'];
     
-    $new_url = "https://zwindia.in/sub/epr/inc/reports/eprpickups/pickup_certificate.php?pid=".$pickupsid;
+    $new_url = "https://employee.tidyrabbit.com/sub/epr/inc/reports/eprpickups/pickup_certificate.php?pid=".$pickupsid;
 
 
 
@@ -61,14 +61,14 @@ generateQRCode($new_url, $outputPath);
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <style>
-body{background-image: url("https://zwindia.in/sub/epr/inc/certificate/images/2.png");background-position: center;background-repeat: no-repeat;background-size: cover;position: relative;margin: auto;
+body{background-image: url("https://employee.tidyrabbit.com/sub/epr/inc/certificate/images/2.png");background-position: center;background-repeat: no-repeat;background-size: cover;position: relative;margin: auto;
 
 }
 </style>
-<body style="background-image: url('https://zwindia.in/sub/epr/inc/certificate/images/2.png');background-position: center;background-repeat: no-repeat;background-size: 102%;position: relative;margin: 0 auto;height:1050px;">
+<body style="background-image: url('https://employee.tidyrabbit.com/sub/epr/inc/certificate/images/2.png');background-position: center;background-repeat: no-repeat;background-size: 102%;position: relative;margin: 0 auto;height:1050px;">
 <div class="cert_back">
 <div class="container-fluid">
-    <div class="text-center"><img src="https://zwindia.in/sub/epr/inc/certificate/images/zw%20logo.png" alt="" style='width:18%;padding:11px;'></div>
+    <div class="text-center"><img src="https://employee.tidyrabbit.com/sub/epr/inc/certificate/images/zw%20logo.png" alt="" style='width:18%;padding:11px;'></div>
     <div class="text-center"><h4 style='margin-bottom:0px;'>CERTIFICATE</h4><p style='font-size:76%;margin:0px 0px;'>OF DISPOSAL</p></div>
     <div class="text-center"><img src="QR/output.png" alt="" style="width:69px;"></div>
     <center><div class="text-center" style="width: 200px;color:#555;border: 1px solid;padding: 6px 0px;border-radius: 11px;transform: scale(0.69);">
@@ -79,12 +79,12 @@ body{background-image: url("https://zwindia.in/sub/epr/inc/certificate/images/2.
     <div class="text-center">
         <h6>This Certificate is ISSUED TO</h6>
         <h5 style = "color:orange"> M/S <?php echo $cientName?></h5>
-        <p style='font-size:90%;'>This is to certify that we, ZW GLOBAL (P) LTD. , has successfully collected the following quantities of Post Consumer Laminate Waste in <b><?php echo $state?></b> from end users, as stated, to fullfill the Extended Producer Responsibility (EPR) obligation . The Waste has been collected for recycling during the period of 1 Febuary 2021 to 28 Febuary 2021, as it has been safely and completely disposed of in accordance with the PWM rules of 2016 or any subsequent amendments. We certify that mentioned quantity has not been accounted for or billed to any other entity.   </p>
+        <p style='font-size:90%;'>This is to certify that we, Tidy Rabbit GLOBAL (P) LTD. , has successfully collected the following quantities of Post Consumer Laminate Waste in <b><?php echo $state?></b> from end users, as stated, to fullfill the Extended Producer Responsibility (EPR) obligation . The Waste has been collected for recycling during the period of 1 Febuary 2021 to 28 Febuary 2021, as it has been safely and completely disposed of in accordance with the PWM rules of 2016 or any subsequent amendments. We certify that mentioned quantity has not been accounted for or billed to any other entity.   </p>
     </div>
 
     <center style='font-size:51%;'>
         <div class="col-sm-6 text-center crt_inv"><table class = "table"><tr class ="table"><td>01.</td><td><b><?php echo $category?></b></td><td><b><?php echo $quantity?></b></td></tr></table></div>
-        <div class="crt_foot"><div><p></p></div><div><img src="https://zwindia.in/sub/epr/inc/certificate/images/dummy-profile.jpg" alt="" width="70px" height="70px"></div><div><p><?php echo date('Y/m/d')?></p></div></div>
+        <div class="crt_foot"><div><p></p></div><div><img src="https://employee.tidyrabbit.com/sub/epr/inc/certificate/images/dummy-profile.jpg" alt="" width="70px" height="70px"></div><div><p><?php echo date('Y/m/d')?></p></div></div>
     </center>
     
 </div>

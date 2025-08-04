@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
   function dbCon()
   {
-    $con = mysqli_connect("localhost", "zwindia_root", "UEws49t2iM@EhAa", "zwindia_software");
+    $con = mysqli_connect("localhost", "u984874713_zwindia_root", "UEws49t2iM@EhAa", "u984874713_zwindia_soft");
     //mysqli_set_charset($con,"utf-8");
     return $con;
   }

@@ -103,13 +103,13 @@
 <span id="t7_1" class="t s1_1">Quantity : <?php echo $rowdata['net_quantity']; ?> Kg</span>
 <span id="t8_1" class="t s1_1">Waste type : <?php echo $rowdata['title']; ?></span>
 <span id="loadedTruck" class="t s1_1">
-	<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['loaded_truck_picture']; ?>" style="
+	<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['loaded_truck_picture']; ?>" style="
 	    border-radius: 50%;
 	    height: 250px;
 	">
 </span>
 <span id="Truck" class="t s1_1">
-	<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['truck_picture']; ?>" style="
+	<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['truck_picture']; ?>" style="
 	    border-radius: 50%;
 	    height: 250px;
 	">

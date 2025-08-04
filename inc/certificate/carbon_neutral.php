@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> ZW India | <?php echo "Add ".$type; ?></title>
+    <title> Tidy Rabbit India | <?php echo "Add ".$type; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-print-css/css/bootstrap-print.min.css" media="print">
@@ -12,7 +12,7 @@
 </head>
     <?php $uid = $_GET['id'];$con = dbCon();  $query =  "SELECT * FROM `zw_invoices` where id = $uid"; $data = mysqli_query($con , $query);    $res = mysqli_fetch_assoc($data);  ?>
     
-    <body style="margin:0;padding:176px 5%;background: url('https://zwindia.in/sub/epr/assets/img/cert_bg.jpeg');margin:0px;background-size: 102%;background-repeat:no-repeat;">
+    <body style="margin:0;padding:176px 5%;background: url('https://employee.tidyrabbit.com/sub/epr/assets/img/cert_bg.jpeg');margin:0px;background-size: 102%;background-repeat:no-repeat;">
             <center>
                 <img src='https://zwglobal.in/assets/zwnewlogo.png' style='width:176px;margin-bottom:48px;'>
                 
@@ -22,7 +22,7 @@
                 <h4 style='letter-spacing:6px;'>THIS CERTIFICATE IS AWARDED TO</h4>
                 <h1 style='font-size:420%;margin-bottom:36px;color:royalblue;'><? echo namebyAid($res['customer_id'], "customer_display_name", "zw_customers"); ?></h1>
                 
-                <h5 class='col-8' style='line-height:29px;word-spacing:6px;color:#555;'>the waste collected by ZW at your premise on <b><?php echo $res['invoice_date']; ?></b> has been appropriately and environmentally responsibly disposed of via one of our authoritized recycling partners</h5>
+                <h5 class='col-8' style='line-height:29px;word-spacing:6px;color:#555;'>the waste collected by Tidy Rabbit at your premise on <b><?php echo $res['invoice_date']; ?></b> has been appropriately and environmentally responsibly disposed of via one of our authoritized recycling partners</h5>
                 
                 
                 <div class='col-10 row' style='margin-top:88px;'>

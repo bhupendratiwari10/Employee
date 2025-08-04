@@ -73,10 +73,10 @@
 <span id="t3_4" class="t s0_4" data-mappings='[[18,"fi"]]'>Weigh bridge certiﬁcate </span><span id="t4_4" class="t s1_4">(Empty) </span>
 
 	<span id="certificate-loaded" class="t s1_1">
-		<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['loaded_weigh_bridge_certificate_picture']; ?>" style="height: 450px;">
+		<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['loaded_weigh_bridge_certificate_picture']; ?>" style="height: 450px;">
 	</span>
 	<span id="certificate-empty" class="t s1_1">
-		<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['weigh_bridge_certificate_picture']; ?>" style="height: 440px;">
+		<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['weigh_bridge_certificate_picture']; ?>" style="height: 440px;">
 	</span>
 </div>
 <!-- End text definitions -->

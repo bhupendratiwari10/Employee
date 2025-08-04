@@ -3,9 +3,9 @@
 function dbCon($type = 'mysqli'){
     $dbConfig = [
         'host' => 'localhost',
-        'username' => 'zwindia_root',
+        'username' => 'u984874713_zwindia_root',
         'password' => 'UEws49t2iM@EhAa',
-        'database' => 'zwindia_software',
+        'database' => 'u984874713_zwindia_soft',
     ];
 
     if ($type === 'mysqli') {

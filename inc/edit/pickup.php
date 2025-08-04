@@ -477,7 +477,7 @@ $(document).ready(function () {
     $pages.hide();
     $pages.eq(pageIndex).show();
     if(submit == true){
-        window.location.href = "https://zwindia.in/sub/epr/manage.php?t=pickups";
+        window.location.href = "https://employee.tidyrabbit.com/sub/epr/manage.php?t=pickups";
     }
   }
 

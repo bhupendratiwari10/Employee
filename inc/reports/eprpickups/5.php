@@ -70,10 +70,10 @@
 <span id="t2_5" class="t s0_5">Truck reciept </span>
 
 <span id="certificate-loaded" class="t s1_1">
-		<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['lorry_bill']; ?>" style="height: 450px;">
+		<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['lorry_bill']; ?>" style="height: 450px;">
 	</span>
 	<span id="certificate-empty" class="t s1_1">
-		<img src="https://zwindia.in/sub/epr/<?php echo $rowdata['truck_receipt']; ?>" style="height: 440px;">
+		<img src="https://employee.tidyrabbit.com/sub/epr/<?php echo $rowdata['truck_receipt']; ?>" style="height: 440px;">
 	</span>
 
 </div>
