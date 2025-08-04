@@ -3,7 +3,7 @@
 }; checklogin();?>
 
 <!DOCTYPE html>
-<html lang="en hn">
+<html lang="en hn test">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
