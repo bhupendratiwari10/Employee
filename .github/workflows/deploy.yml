@@ -29,7 +29,7 @@ jobs:
           
           # Preserve files that shouldn't be overwritten
           echo "💾 Preserving configuration files..."
-          PRESERVE_FILES="constant.php .htaccess"
+          PRESERVE_FILES=".htaccess"
           TEMP_DIR=$(mktemp -d)
           
           for file in $PRESERVE_FILES; do
