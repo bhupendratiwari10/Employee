@@ -14,7 +14,7 @@
     
     <body style="margin:0;padding:176px 5%;background: url('https://employee.tidyrabbit.com/sub/epr/assets/img/cert_bg.jpeg');margin:0px;background-size: 102%;background-repeat:no-repeat;">
             <center>
-                <img src='https://employee.tidyrabbit.com/assets/zwnewlogo.png' style='width:176px;margin-bottom:48px;'>
+                <img src='https://employee.tidyrabbit.com/assets/logo.svg' style='width:176px;margin-bottom:48px;'>
                 
                 <h3 style='letter-spacing:6px;'>- CARBON NEUTRAL -</h3>
                 <h1 style='font-size:420%;margin-bottom:76px;'><b>CERTIFICATE</b></h1>

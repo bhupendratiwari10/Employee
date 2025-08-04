@@ -14,7 +14,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('error_log', '/path/to/error.log');
-
+include_once('../constant.php');
 /**
  * Database connection
  */
@@ -22,7 +22,7 @@ function dbCon() {
     static $con = null;
     
     if ($con === null) {
-        $con = mysqli_connect("localhost", "u984874713_zwindia_root", "UEws49t2iM@EhAa", "u984874713_zwindia_soft");
+        $con = mysqli_connect(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
         
         if (!$con) {
             error_log("Database connection failed: " . mysqli_connect_error());

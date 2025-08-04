@@ -12,7 +12,7 @@ echo"
 
         <div class='row col-12'>
             <div class='col-md-6 order-md-2'>
-                <img src='assets/zwnewlogo.png' class='img-fluid col-6' style='float:right;'>
+                <img src='assets/logo.svg' class='img-fluid col-6' style='float:right;'>
             </div>
     
             <div class='col-md-6  order-md-1'>

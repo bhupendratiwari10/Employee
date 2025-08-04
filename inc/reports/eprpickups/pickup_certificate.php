@@ -1,5 +1,5 @@
 <?php 
-include "/home/zwindia/public_html/sub/epr/inc/function.php";
+include FULL_PATH.'/sub/epr/inc/function.php';
 include "../../phpqrcode-master/qrlib.php";
 
 $con = dbCon();

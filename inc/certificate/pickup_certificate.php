@@ -1,6 +1,6 @@
 <?php 
-include "/home/zwindia/public_html/sub/epr/inc/function.php";
-include "/home/zwindia/public_html/sub/epr/inc/phpqrcode-master/qrlib.php";
+include FULL_PATH.'/sub/epr/inc/function.php';
+include FULL_PATH.'/sub/epr/inc/phpqrcode-master/qrlib.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

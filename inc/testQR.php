@@ -10,7 +10,7 @@ function generateQRCode($url, $outputPath)
 }
 
 // Example usage
-$urlValue = "https://employee.tidyrabbit.com/sub/epr/view.php?type=pickups&id=84";
+$urlValue = FULL_PATH."/sub/epr/view.php?type=pickups&id=84";
 $outputPath = "output.png"; // Specify the path where you want to save the QR code image
 
 generateQRCode($urlValue, $outputPath);

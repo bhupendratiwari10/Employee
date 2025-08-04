@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
   function dbCon()
   {
-    $con = mysqli_connect("localhost", "u984874713_zwindia_root", "UEws49t2iM@EhAa", "u984874713_zwindia_soft");
+    $con = mysqli_connect(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
     //mysqli_set_charset($con,"utf-8");
     return $con;
   }
@@ -289,7 +289,7 @@ function uploadImage($inputName, $subFolder){
         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
         $newFileName = $uniqueID . "_" . $fileName;
         
-        $uploadDirectory = "/home/zwindia/public_html/sub/epr/".$subFolder . "/" . $newFileName;
+        $uploadDirectory = FULL_PATH."/sub/epr/".$subFolder . "/" . $newFileName;
         if (move_uploaded_file($tempName, $uploadDirectory)) {
             return $uploadDir . $subFolder . "/" . $newFileName;
         } else {

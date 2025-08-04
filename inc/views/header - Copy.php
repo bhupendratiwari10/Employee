@@ -330,7 +330,7 @@ $permissions = $result['page_permissions'];
 
 <div class='col-md-2' id='leftmenu' style='border-right: 1px solid #cecece;padding:3% 0%;display:block;overflow-y:scroll;overflow-x:hidden;z-index:99;backgroundi:#111;color:#000;position:fixed;left:0;top:0;bottom:0;'>
     <menulist style='overflow-x:hidden;'>
-        <center><img src='http://employee.tidyrabbit.com/assets/zwnewlogo.png' class='headlogo' style=''></center>
+        <center><img src='http://employee.tidyrabbit.com/assets/logo.svg' class='headlogo' style=''></center>
         <br>
         <style>
             menu {

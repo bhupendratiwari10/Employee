@@ -2,10 +2,10 @@
 
 function dbCon($type = 'mysqli'){
     $dbConfig = [
-        'host' => 'localhost',
-        'username' => 'u984874713_zwindia_root',
-        'password' => 'UEws49t2iM@EhAa',
-        'database' => 'u984874713_zwindia_soft',
+        'host' => DATABASE_HOST,
+        'username' => DATABASE_USER,
+        'password' => DATABASE_PASSWORD,
+        'database' => DATABASE_NAME,
     ];
 
     if ($type === 'mysqli') {

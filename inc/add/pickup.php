@@ -505,7 +505,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $pages.hide();
       $pages.eq(pageIndex).show();
       if (submit == true) {
-        window.location.href = "https://employee.tidyrabbit.com/sub/epr/manage.php?t=pickups";
+        window.location.href = '<?php echo PROJECT_URL?>'+'/sub/epr/manage.php?t=pickups';
       }
     }
 
@@ -526,7 +526,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         currentPage++;
         showPage(currentPage, submit);
       } else if ($pages.length == 8) { // Last Page
-        window.location.href = "https://employee.tidyrabbit.com/sub/epr/manage.php?t=pickups";
+        window.location.href = '<?php echo PROJECT_URL?>'+'/sub/epr/manage.php?t=pickups';
       }
     });
 

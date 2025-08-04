@@ -394,7 +394,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // Make an AJAX call
       $.ajax({
         type: 'GET',
-        url: 'https://employee.tidyrabbit.com/sub/epr/record.php?fun=search_po', // Replace with your API endpoint
+        url: '<?php echo PROJECT_URL?>'+'/sub/epr/record.php?fun=search_po', // Replace with your API endpoint
         data: { customer_id: selectedcustomer_id},
         success: function(response) {
           // Handle the success response
@@ -426,7 +426,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $.ajax({
         type: 'GET',
-        url: 'https://employee.tidyrabbit.com/sub/epr/record.php?fun=get_invoice_id',
+        url: '<?php echo PROJECT_URL?>'+'/sub/epr/record.php?fun=get_invoice_id',
         success: function(response) {
           // Handle the success response
           console.log(response);
@@ -482,7 +482,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        // Make an AJAX call
       $.ajax({
         type: 'GET',
-        url: 'https://employee.tidyrabbit.com/sub/epr/record.php?fun=get_qty', // Replace with your API endpoint
+        url: '<?php echo PROJECT_URL?>'+'/sub/epr/record.php?fun=get_qty', // Replace with your API endpoint
         data: {customer_id: customer_id, po_no: selectedPO, dateFrom: dateFrom, dateTo:dateTo, selectedCat: selectedCat, selectedState: selectedState},
         success: function(response) {
           // Handle the success response
