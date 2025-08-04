@@ -245,7 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <div class="login-container">
-        <img src="https://zw.international/assets/ZW-Logo-footer-WbdtosrW.svg" />
+        <img src="" />
         <h1>Welcome !</h1>
         <p class="thrilled">Glad to have you back, valued team member !</p>
 
