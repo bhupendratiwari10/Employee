@@ -3,47 +3,62 @@
  ini_set ('display_errors', 1);  
 ini_set ('display_startup_errors', 1);  
 error_reporting (E_ALL);
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $customerType = $_POST['customer-type'];
-    $firstName = $_POST['first-name'];
-    $lastName = $_POST['last-name'];
-    $companyName = $_POST['company-name'];
-    $customerDisplayName = $_POST['customer-display-name'];
-    $customerEmail = $_POST['customer-email'];
-    $customerPhone = $_POST['customer-phone'];
-    $workPhone = $_POST['work-phone'];
-    $mobile = $_POST['mobile'];
-    $pfp = uploadImage("pfp", "uploads/customer_pfp");
-    $pan = $_POST['pan'];
-    $openingBalance = $_POST['opening-balance'];
-    $currency = $_POST['currency'];
-    $billingAddress = $_POST['billing-address'];
-    $shippingAddress = $_POST['shipping-address'];
-    $paymentTerms = $_POST['payment-terms'];
-    $enablePortal = isset($_POST['enable-portal']) ? 1 : 0;
-    $username = isset($_POST['username']) ? $_POST['username'] : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    
-    $query = "INSERT INTO zw_customers 
-                (customer_type, first_name, last_name, profile_pic, company_name, customer_display_name, 
-                 customer_email, customer_phone, work_phone, mobile, pan, opening_balance, currency, 
-                 billing_address, shipping_address, payment_terms, enable_portal,username,password) 
-              VALUES 
-                ('$customerType', '$firstName', '$lastName', '$pfp', '$companyName', '$customerDisplayName', 
-                 '$customerEmail', '$customerPhone', '$workPhone', '$mobile', '$pan', '$openingBalance', 
-                 '$currency', '$billingAddress', '$shippingAddress', '$paymentTerms', '$enablePortal', '$username', '$hashedPassword')";
 
-    if(mysqli_query($con, $query)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Assuming DB connection ($con) and uploadImage() are already available
+
+    // Sanitize function
+    function sanitize($value, $con) {
+        return mysqli_real_escape_string($con, trim($value));
+    }
+
+    // Sanitize and collect form values
+    $customerType = sanitize($_POST['customer-type'], $con);
+    $firstName = sanitize($_POST['first-name'], $con);
+    $lastName = sanitize($_POST['last-name'], $con);
+    $companyName = sanitize($_POST['company-name'], $con);
+    $customerDisplayName = sanitize($_POST['customer-display-name'], $con);
+    $customerEmail = sanitize($_POST['customer-email'], $con);
+    $customerPhone = sanitize($_POST['customer-phone'], $con);
+    $workPhone = sanitize($_POST['work-phone'], $con);
+    $mobile = sanitize($_POST['mobile'], $con);
+    $pan = sanitize($_POST['pan'], $con);
+    $openingBalance = sanitize($_POST['opening-balance'], $con);
+    $currency = sanitize($_POST['currency'], $con);
+    $billingAddress = sanitize($_POST['billing-address'], $con);
+    $shippingAddress = sanitize($_POST['shipping-address'], $con);
+    $paymentTerms = sanitize($_POST['payment-terms'], $con);
+    $enablePortal = isset($_POST['enable-portal']) ? 1 : 0;
+    $username = isset($_POST['username']) ? sanitize($_POST['username'], $con) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+
+    $pfp = uploadImage("pfp", "uploads/customer_pfp");
+
+    $hashedPassword = $enablePortal ? password_hash($password, PASSWORD_DEFAULT) : '';
+
+    // Build query
+    $query = "INSERT INTO zw_customers (
+                customer_type, first_name, last_name, profile_pic, company_name, customer_display_name, 
+                customer_email, customer_phone, work_phone, mobile, pan, opening_balance, currency, 
+                billing_address, shipping_address, payment_terms, enable_portal, username, password
+              ) VALUES (
+                '$customerType', '$firstName', '$lastName', '$pfp', '$companyName', '$customerDisplayName',
+                '$customerEmail', '$customerPhone', '$workPhone', '$mobile', '$pan', '$openingBalance',
+                '$currency', '$billingAddress', '$shippingAddress', '$paymentTerms', '$enablePortal',
+                '$username', '$hashedPassword'
+              )";
+
+    // Execute
+    if (mysqli_query($con, $query)) {
         echo "<script>alert('Customer Added');</script>";
-      redirect("manage.php?t=customer");
+        echo "<script>window.location.href='manage.php?t=customer';</script>";
     } else {
         echo "<script>alert('Customer Entry Failed');</script>";
+        error_log("MySQL Error: " . mysqli_error($con)); // Log error for debugging
     }
 }
-
-
 ?>
+
     <h2>Add Customer</h2>
         <form method="post" action="" enctype="multipart/form-data">
             <div class="row g-3">

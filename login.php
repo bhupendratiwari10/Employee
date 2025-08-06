@@ -263,7 +263,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <p class="small-p">Forgot Password?</p>
             </div>
         </div>
-        <p class="copyright small-p">— All rights reserved © Tidy Rabbit International —</p>
+        <p class="copyright small-p">— All rights reserved © Tidy Rabbit —</p>
     </div>
     <img src="assets/Login%20Page%20-%20Employee.webp" class="background-image" />
     <a href="<?php echo PROJECT_URL?>">
