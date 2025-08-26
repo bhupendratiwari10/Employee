@@ -63,6 +63,9 @@ function clearAllCookies()
         width: 100% !important;
     }
     .red{color:red;}
+    .hidden{
+        display: none;
+    }
 </style>
 
 <?php
@@ -458,7 +461,7 @@ if (isset($_COOKIE['user_role']) && is_numeric($_COOKIE['user_role'])) {
             <a class='mainmenu itemsX' href='manage.php?t=items'><i class='mi-th-large'></i>
                 <l>Items</l>
             </a>
-            <a class='mainmenu bankX' href='banking.php'><i class='mi-currency-exchange'></i>
+            <a class='mainmenu bankX hidden' href='banking.php'><i class='mi-currency-exchange'></i>
                 <l>Banking</l>
             </a><br>
 
@@ -470,13 +473,13 @@ if (isset($_COOKIE['user_role']) && is_numeric($_COOKIE['user_role'])) {
             <div class='d-none submenubox' id='managesale'>
                 <div style='display:block;width:100%;margin-left:15%;font-size:80%;'>
                     <a href='manage.php?t=customer&g=sls' class='customerXbt'>Customers</a>
-                    <a href='manage.php?t=quote&g=sls' class='quoteXbt'>Quotes</a>
-                    <a href='manage.php?t=invoice&g=sls' class='invoiceXbt'>Invoices</a>
-                    <a href='manage.php?t=payments-received&g=sls' class='payments-receivedXbt'>Payments received</a>
+                    <a href='manage.php?t=quote&g=sls' class='quoteXbt hidden'>Quotes</a>
+                    <a href='manage.php?t=invoice&g=sls' class='invoiceXbt hidden'>Invoices</a>
+                    <a href='manage.php?t=payments-received&g=sls' class='payments-receivedXbt hidden'>Payments received</a>
                 </div>
             </div>
 
-            <a class='mainmenu purchX submenu' data-target='#managepurch'><i class='mi-mi-list'></i>
+            <a class='mainmenu purchX submenu hidden' data-target='#managepurch'><i class='mi-mi-list'></i>
                 <l>Purchases</l>
             </a>
             <div class='d-none submenubox' id='managepurch'>
@@ -514,7 +517,7 @@ if (isset($_COOKIE['user_role']) && is_numeric($_COOKIE['user_role'])) {
                     <a href='manage.php?t=ulbs&g=epr' class='ulbsXbt'>ULBs</a>
 
                     <a href='manage.php?t=categories&g=epr' class='categoriesXbt'>Categories</a>
-                    <a href='reports.php?t=eprinvoice&g=epr'>Reports</a>
+                    <a href='reports.php?t=eprinvoice&g=epr' class="reports hidden">Reports</a>
                 </div>
             </div>
 
